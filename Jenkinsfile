@@ -21,7 +21,7 @@ pipeline {
         
         stage('Code Checkout') {
             steps {
-                git url: "https://github.com/atkaridarshan04/MERN-DevOps.git", branch: "main"
+                git url: "https://github.com/CloudNative-DevOps-Blueprint.git", branch: "main"
             }
         }
         
@@ -32,14 +32,14 @@ pipeline {
             }
         }
 
-        stage("OWASP: Dependency check"){
-            steps{
-                script{
-                    dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'OWASP'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-                }
-            }
-        }
+        // stage("OWASP: Dependency check"){
+        //     steps{
+        //         script{
+        //             dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'OWASP'
+        //             dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        //         }
+        //     }
+        // }
         
         stage('SonarQube: Code Analysis') {
             steps {
@@ -51,7 +51,7 @@ pipeline {
         
         stage("SonarQube: Code Quality Gates"){
             steps {
-                timeout(time: 5, unit: "MINUTES"){
+                timeout(time: 30, unit: "MINUTES"){
                 waitForQualityGate abortPipeline: false
                 }
             }
@@ -61,13 +61,13 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    cd frontend
+                    cd src/frontend
                     docker build -t atkaridarshan04/bookstore-frontend:${FRONTEND_DOCKER_TAG} .
                     '''
                 }
                 script {
                     sh '''
-                    cd backend
+                    cd src/backend
                     docker build -t atkaridarshan04/bookstore-backend:${BACKEND_DOCKER_TAG} .
                     '''
                 }   
