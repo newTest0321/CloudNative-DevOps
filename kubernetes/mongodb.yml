@@ -22,13 +22,10 @@ spec:
       labels:
         app: mongodb
     spec:
-      securityContext:       # Pod-level security context
-        runAsNonRoot: true
-        runAsUser: 999       # Mongo official container uses 999
-        fsGroup: 999         # Ensures volume write access
       containers:
         - name: mongodb
           image: mongo:4.4
+          imagePullPolicy: IfNotPresent   
           ports:
             - containerPort: 27017
           env:

@@ -22,7 +22,7 @@ nodes:
         protocol: TCP
 ```
 
----
+
 
 ## 1. Create the Kind Cluster
 
@@ -40,7 +40,7 @@ Confirm the cluster setup:
 kubectl get nodes
 ```
 
----
+
 
 ## 2. Create a Namespace 
 
@@ -55,7 +55,7 @@ Switch to your working directory containing the YAML configuration files:
 cd kubernetes/
 ```
 
----
+
 
 ## 3. Deploy Persistent Storage
 
@@ -66,7 +66,7 @@ kubectl apply -f persistentVolume.yml
 kubectl apply -f persistentVolumeClaim.yml
 ```
 
----
+
 
 ## 4. Deploy MongoDB with Service and Secrets
 
@@ -83,7 +83,7 @@ kubectl run -it --rm --restart=Never -n default --image=busybox dns-test -- nslo
 ```
 ![mongo-svc-dns-test.png](./assets/mongo-svc-dns-test.png)
 
----
+
 
 ## 5. Deploy the Backend (Node.js) Service
 
@@ -96,7 +96,7 @@ kubectl apply -f backend.yml
 
 Ensure the backend connects to MongoDB by setting appropriate environment variables in `backend-config.yml`.
 
----
+
 
 ## 6. Deploy the Frontend (React) Service
 
@@ -129,7 +129,7 @@ kubectl get all -n mern-devops
   http://<node-ip>:31100
   ```
 
----
+
 
 ## 7. Configure Ingress
 
@@ -172,7 +172,11 @@ Ensure the Ingress rules are properly set up:
 kubectl get ingress -n mern-devops
 ```
 
----
+### Step 4: Access the Application
+In browser navigate to `http://<node-ip>`
+![ingress-implemented](./assets/ingress-implemented.png)
+
+
 
 ## 8. Configure DNS with DuckDNS
 
@@ -184,7 +188,8 @@ Integrate DuckDNS for domain-based access:
 4. **Verify DNS:** Ensure the application is accessible through your domain.
 
 ![duckdns.png](./assets/duckdns.png)
----
+
+
 
 ## 9. Access the Application
 >**Note:** Configure the [fronted-config](../kubernetes/frontend-config.yml) file accordingly.
@@ -205,7 +210,7 @@ Integrate DuckDNS for domain-based access:
   ```
   ![k8s-2.png](./assets/k8s-2.png)
 
----
+
 
 ## 10. Cleanup
 
@@ -218,6 +223,5 @@ kind delete cluster
 
 This ensures a complete cleanup of all resources, including the Kubernetes cluster and Ingress setup.
 
----
 
 

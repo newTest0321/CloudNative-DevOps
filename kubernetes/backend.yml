@@ -23,6 +23,7 @@ spec:
       containers:
         - name: backend
           image: atkaridarshan04/bookstore-backend:v2
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
           env:
@@ -75,11 +76,11 @@ metadata:
   name: backend-service
   namespace: mern-devops
 spec:
-  type: NodePort
+  # type: NodePort
   selector:
     app: backend
   ports:
     - port: 8000
       targetPort: 8000
       protocol: TCP
-      nodePort: 31100
+      # nodePort: 31100
