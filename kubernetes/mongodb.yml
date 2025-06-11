@@ -54,13 +54,6 @@ spec:
           volumeMounts:
             - name: mongodb-vol
               mountPath: /data/db
-          securityContext:  # Container-level security context
-            runAsNonRoot: true
-            runAsUser: 999       # Mongo official container uses 999
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL  # Drop all capabilities for security
       volumes:
         - name: mongodb-vol
           persistentVolumeClaim:
@@ -88,4 +81,4 @@ spec:
   ports:
     - port: 27017
       targetPort: 27017
-      # protocol: TCP
+      protocol: TCP

@@ -77,6 +77,12 @@ kubectl apply -f secrets.yml
 kubectl apply -f mongodb.yml
 ```
 
+Verify that the dns is accessible or not:
+```bash
+kubectl run -it --rm --restart=Never -n default --image=busybox dns-test -- nslookup mongodb-deployment-0.mongodb-service-headless.mern-devops.svc.cluster.local
+```
+![mongo-svc-dns-test.png](./assets/mongo-svc-dns-test.png)
+
 ---
 
 ## 5. Deploy the Backend (Node.js) Service
