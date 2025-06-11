@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
-  name: frontend-gateway
+  name: gateway
   namespace: mern-devops
 spec:
   selector:
@@ -18,13 +18,13 @@ spec:
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: frontend-virtualservice
+  name: virtualservice
   namespace: mern-devops
 spec:
   hosts:
   - "*"
   gateways:
-  - frontend-gateway
+  - gateway
   http:
   - match:
     - uri:
