@@ -41,6 +41,21 @@ spec:
                   key: password
             - name: MONGO_INITDB_DATABASE
               value: "db"
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - db.adminCommand('ping')
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
           # resources:
           #   requests:
           #     memory: "128Mi"
