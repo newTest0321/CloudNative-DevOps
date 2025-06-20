@@ -1,12 +1,10 @@
-# MERN DevOps Project
+# CloudNative DevOps Blueprint
 
 This project is designed to facilitate the deployment of a MERN (MongoDB, Express, React, Node.js) application by integrating key DevOps tools and best practices. It leverages Docker for containerization, Kubernetes for orchestration, Jenkins for CI/CD automation, Helm for package management, ArgoCD for GitOps-based deployment, Kustomize for environment-specific configurations, and Prometheus/Grafana for monitoring and observability.
 
----
-
 ## Overview
 
-The MERN DevOps project includes:
+This project includes:
 
 - **Dockerization**: Building and running containers for the frontend, backend, and MongoDB using Docker and Docker Compose.
 
@@ -22,13 +20,11 @@ The MERN DevOps project includes:
 
 - **Observability**: Implementing monitoring mechanisms using tools like Prometheus and Grafana to monitor the health and performance of the application.
 
----
 
 ## Project Deployment Flow
 
 ![workflow-gif](./docs/assets/workflow.gif)
 
----
 
 ## Documentation
 
@@ -55,5 +51,4 @@ To understand the various components of this project, refer to the following doc
 - **[Observability.md](./docs/Observability.md)**:  
   Instructions on setting up Prometheus for monitoring application metrics and visualizing data with Grafana dashboards.
 
----
-
+  
