@@ -47,11 +47,11 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
-  type: NodePort
+  # type: NodePort
   selector:
     app: frontend
   ports:
     - port: 5173
       targetPort: 5173
       protocol: TCP
-      nodePort: 31000
+      # nodePort: 31000

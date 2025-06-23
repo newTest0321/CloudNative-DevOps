@@ -55,11 +55,11 @@ kind: Service
 metadata:
   name: backend-service
 spec:
-  type: NodePort
+  # type: NodePort
   selector:
     app: backend
   ports:
     - port: 8000
       targetPort: 8000
       protocol: TCP
-      nodePort: 31100
+      # nodePort: 31100

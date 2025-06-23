@@ -60,7 +60,8 @@ kubectl apply -k overlays/prod
 
 ### Check Applied Configurations
 ```bash
-kubectl get configmap backend-config -o yaml -n mern-devops
+kubectl get configmap -n mern-devops
+kubectl get configmap <configmap-name> -o yaml -n mern-devops
 ```
 
 ### Check Running Pods
@@ -86,7 +87,7 @@ To find the **Node IP**, run:
 kubectl get nodes -o wide
 ```
 
-## Configuring Ingress (Optional)
+## Configuring Ingress
 
 ### 1. Install Nginx Ingress Controller
 Deploy the Ingress controller:
@@ -116,8 +117,10 @@ Ensure the necessary configurations are updated in the following files:
 Once deployed, the application can be accessed at:
 
 ```bash
-http://<NODE_IP>/
+kubectl get ingress -n mern-devops
 ```
+
+Open the address in browser
 
 ## Deleting Resources
 To remove all resources for a specific environment:

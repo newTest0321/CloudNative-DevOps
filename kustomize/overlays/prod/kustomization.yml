@@ -10,10 +10,10 @@ resources:
 patches:
   - path: backend-patch.yml
   - path: frontend-patch.yml
-  # - path: ingress-patch.yml     # uncomment if using ingress
+  - path: ingress-patch.yml     # uncomment if using ingress
 
 configMapGenerator:
   - name: backend-config
     literals:
       - PORT=8000
-      - mongoDBURL=mongodb://admin:password123@prod-mongodb-service:27017/db?authSource=admin
+      - mongoDBURL=mongodb://admin:password123@prod-mongodb-deployment-0.prod-mongodb-service-headless.mern-devops.svc.cluster.local:27017/db?authSource=admin
