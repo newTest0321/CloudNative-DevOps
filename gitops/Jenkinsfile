@@ -1,129 +1,150 @@
 pipeline {
-    agent {label 'slave'}
+    agent any
     
     parameters {
-        string(name: 'FRONTEND_DOCKER_TAG', defaultValue: '', description: 'Frontend Docker tag of the image built by the CI job')
-        string(name: 'BACKEND_DOCKER_TAG', defaultValue: '', description: 'Backend Docker tag of the image built by the CI job')
+        string(name: 'FRONTEND_DOCKER_TAG', defaultValue: 'latest', description: 'Frontend Docker tag from CI pipeline')
+        string(name: 'BACKEND_DOCKER_TAG', defaultValue: 'latest', description: 'Backend Docker tag from CI pipeline')
+    }
+
+    environment {
+        GIT_REPO_URL = "https://github.com/atkaridarshan04/CloudNative-DevOps-Blueprint.git"
+        GIT_BRANCH = "main"
+        DOCKER_USERNAME = "atkaridarshan04"
     }
 
     stages {
-        stage("Workspace cleanup"){
-            steps{
-                script{
-                    cleanWs()
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+                echo "Workspace cleaned"
+            }
+        }
+        
+        stage('Checkout Code') {
+            steps {
+                git url: "${GIT_REPO_URL}", branch: "${GIT_BRANCH}"
+                echo "Code checked out from GitHub"
+            }
+        }
+        
+        stage('Verify Docker Tags') {
+            steps {
+                echo "Frontend Docker Tag: ${params.FRONTEND_DOCKER_TAG}"
+                echo "Backend Docker Tag: ${params.BACKEND_DOCKER_TAG}"
+                
+                // Validate tags are not empty
+                script {
+                    if (params.FRONTEND_DOCKER_TAG == '' || params.BACKEND_DOCKER_TAG == '') {
+                        error "Docker tags cannot be empty!"
+                    }
                 }
             }
         }
         
-        stage('Git: Code Checkout') {
+        stage('Update Kubernetes Manifests') {
             steps {
-                git url: "https://github.com/CloudNative-DevOps-Blueprint.git", branch: "main"
-            }
-        }
-        
-        stage('Verify: Docker Image Tags') {
-            steps {
-                script{
-                    echo "FRONTEND_DOCKER_TAG: ${params.FRONTEND_DOCKER_TAG}"
-                    echo "BACKEND_DOCKER_TAG: ${params.BACKEND_DOCKER_TAG}"
-                }
-            }
-        }
-        
-        
-        stage("Update: Kubernetes manifests"){
-            steps{
-                script{
-                    dir('k8s'){
+                script {
+                    // Update backend manifest
+                    dir('kubernetes') {
                         sh """
-                            sed -i -e s/bookstore-backend.*/bookstore-backend:${params.BACKEND_DOCKER_TAG}/g backend.yml
+                            echo "Updating backend image tag..."
+                            sed -i 's|image: ${DOCKER_USERNAME}/bookstore-backend:.*|image: ${DOCKER_USERNAME}/bookstore-backend:${params.BACKEND_DOCKER_TAG}|g' backend.yml
                         """
                     }
                     
-                    dir('k8s'){
+                    // Update frontend manifest
+                    dir('kubernetes') {
                         sh """
-                            sed -i -e s/bookstore-frontend.*/bookstore-frontend:${params.FRONTEND_DOCKER_TAG}/g frontend.yml
+                            echo "Updating frontend image tag..."
+                            sed -i 's|image: ${DOCKER_USERNAME}/bookstore-frontend:.*|image: ${DOCKER_USERNAME}/bookstore-frontend:${params.FRONTEND_DOCKER_TAG}|g' frontend.yml
                         """
                     }
                     
+                    echo "Kubernetes manifests updated successfully"
                 }
             }
         }
         
-        stage("Git: Code update and push to GitHub"){
-            steps{
-                script{
-                    withCredentials([gitUsernamePassword(credentialsId: 'github-token', gitToolName: 'Default')]) {
-                        sh '''
-                        git config user.email "jenkins@example.com"
-                        git config user.name "jenkins"
-
-                        echo "Checking repository status: "
+        stage('Commit and Push Changes') {
+            steps {
+                withCredentials([gitUsernamePassword(credentialsId: 'github-token', gitToolName: 'Default')]) {
+                    sh """
+                        git config user.email "jenkins@ci.com"
+                        git config user.name "Jenkins GitOps"
+                        
+                        echo "Checking git status..."
                         git status
-                    
-                        echo "Adding changes to git: "
-                        git add .
                         
-                        echo "Commiting changes: "
-                        git commit -m "Updated environment variables"
+                        echo "Committing changes..."
+                        git commit -m "GitOps: Update image tags to frontend:${params.FRONTEND_DOCKER_TAG}, backend:${params.BACKEND_DOCKER_TAG}" || echo "No changes to commit"
                         
-                        echo "Pushing changes to github: "
-                        git push https://github.com/CloudNative-DevOps-Blueprint.git main
-                    '''
-                    }
+                        echo "Pushing to GitHub..."
+                        git push ${GIT_REPO_URL} ${GIT_BRANCH}
+                    """
                 }
+                echo "Changes pushed to GitHub successfully"
             }
         }
     }
 
-  post {
-    always {
-        script {
-            emailext(
-                attachLog: true,
-                from: 'atkaridarshan04@gmail.com',
-                subject: "🚀 BookStore Application Deployment Status: '${currentBuild.result}'",
-                body: """
-                    <html>
-                    <body style="font-family: Arial, sans-serif;">
-                        <div style="background-color: #FFA07A; padding: 20px; margin-bottom: 15px; border-radius: 10px;">
-                            <h2 style="color: black; font-weight: bold; text-align: center;">📦 Project Update</h2>
-                            <p style="color: black; font-size: 16px; text-align: center;">
-                                <strong>Project:</strong> ${env.JOB_NAME}
-                            </p>
-                        </div>
-
-                        <div style="background-color: #90EE90; padding: 20px; margin-bottom: 15px; border-radius: 10px;">
-                            <h3 style="color: black; font-weight: bold; text-align: center;">🛠 Build Details</h3>
-                            <p style="color: black; font-size: 16px; text-align: center;">
-                                <strong>Build Number:</strong> ${env.BUILD_NUMBER}
-                            </p>
-                            <p style="color: black; font-size: 16px; text-align: center;">
-                                <strong>Build Status:</strong> ${currentBuild.result}
-                            </p>
-                        </div>
-
-                        <div style="background-color: #87CEEB; padding: 20px; margin-bottom: 15px; border-radius: 10px;">
-                            <h3 style="color: black; font-weight: bold; text-align: center;">🔗 Build URL</h3>
-                            <p style="color: black; font-size: 16px; text-align: center;">
-                                <a href="${env.BUILD_URL}" style="color: black; font-weight: bold; text-decoration: none;">
-                                    Click Here to View Build Details
-                                </a>
-                            </p>
-                        </div>
-
-                        <div style="background-color: #f4f4f4; padding: 15px; border-top: 2px solid #333;">
-                            <p style="color: black; font-size: 14px; text-align: center;">
-                                This is an automated email from Jenkins. Please do not reply.
-                            </p>
-                        </div>
-                    </body>
-                    </html>
-                """,
-                to: 'atkaridarshan04@gmail.com',
-                mimeType: 'text/html'
-            )
+    post {
+        always {
+            echo "GitOps pipeline execution completed"
+        }
+        
+        success {
+            echo "✅ GitOps pipeline completed successfully!"
+            echo "📦 Updated images:"
+            echo "   Frontend: ${DOCKER_USERNAME}/bookstore-frontend:${params.FRONTEND_DOCKER_TAG}"
+            echo "   Backend: ${DOCKER_USERNAME}/bookstore-backend:${params.BACKEND_DOCKER_TAG}"
+            
+            // Send notification email
+            script {
+                emailext(
+                    subject: "✅ GitOps Deployment Success - BookStore App",
+                    body: """
+                        <h2>🚀 GitOps Deployment Successful</h2>
+                        <p><strong>Project:</strong> ${env.JOB_NAME}</p>
+                        <p><strong>Build:</strong> ${env.BUILD_NUMBER}</p>
+                        <p><strong>Status:</strong> ${currentBuild.result}</p>
+                        
+                        <h3>📦 Updated Images:</h3>
+                        <ul>
+                            <li>Frontend: ${DOCKER_USERNAME}/bookstore-frontend:${params.FRONTEND_DOCKER_TAG}</li>
+                            <li>Backend: ${DOCKER_USERNAME}/bookstore-backend:${params.BACKEND_DOCKER_TAG}</li>
+                        </ul>
+                        
+                        <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        
+                        <p><em>ArgoCD will automatically sync these changes to the cluster.</em></p>
+                    """,
+                    to: 'atkaridarshan04@gmail.com',
+                    mimeType: 'text/html'
+                )
+            }
+        }
+        
+        failure {
+            echo "❌ GitOps pipeline failed!"
+            
+            // Send failure notification
+            script {
+                emailext(
+                    subject: "❌ GitOps Deployment Failed - BookStore App",
+                    body: """
+                        <h2>🚨 GitOps Deployment Failed</h2>
+                        <p><strong>Project:</strong> ${env.JOB_NAME}</p>
+                        <p><strong>Build:</strong> ${env.BUILD_NUMBER}</p>
+                        <p><strong>Status:</strong> ${currentBuild.result}</p>
+                        
+                        <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        
+                        <p>Please check the build logs for details.</p>
+                    """,
+                    to: 'atkaridarshan04@gmail.com',
+                    mimeType: 'text/html'
+                )
+            }
         }
     }
-  }
 }
