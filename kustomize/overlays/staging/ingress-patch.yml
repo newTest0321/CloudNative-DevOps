@@ -5,20 +5,20 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: dev.local
+    - host: staging.local
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: dev-frontend-service
+                name: staging-frontend-service
                 port:
                   number: 5173
           - path: /books
             pathType: Prefix
             backend:
               service:
-                name: dev-backend-service
+                name: staging-backend-service
                 port:
                   number: 8000

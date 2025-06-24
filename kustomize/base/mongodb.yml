@@ -1,3 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service-headless
+spec:
+  clusterIP: None
+  selector:
+    app: mongodb
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -23,6 +38,7 @@ spec:
       containers:
         - name: mongodb
           image: mongo:4.4
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 27017
           env:
@@ -38,25 +54,10 @@ spec:
                   key: password
             - name: MONGO_INITDB_DATABASE
               value: "db"
-          volumeMounts:
-            - name: mongodb-vol
-              mountPath: /data/db        
-      volumes:
-        - name: mongodb-vol
-          persistentVolumeClaim:
-            claimName: mongo-pvc
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongodb-service-headless
-spec:
-  clusterIP: None
-  selector:
-    app: mongodb
-  ports:
-    - port: 27017
-      targetPort: 27017
-      protocol: TCP
-
+          # volumeMounts:
+          #   - name: mongodb-vol
+          #     mountPath: /data/db        
+      # volumes:
+      #   - name: mongodb-vol
+      #     persistentVolumeClaim:
+      #       claimName: mongo-pvc

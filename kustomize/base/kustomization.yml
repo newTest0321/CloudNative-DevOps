@@ -4,15 +4,11 @@ kind: Kustomization
 namespace: mern-devops
 
 resources:
-  - persistentVolume.yml
-  - persistentVolumeClaim.yml
-  # - secrets.yml
   - mongodb.yml
   - ingress.yaml
-  # - backend-config.yml
-  # - frontend-config.yml
   - backend.yml
   - frontend.yml
+  # - volume.yml
 
 
 configMapGenerator:
@@ -20,12 +16,6 @@ configMapGenerator:
     literals:
       # - VITE_API_BACKEND_URL=http://192.168.88.133:31100 # using nodeport service
       - VITE_API_BACKEND_URL="" # after configuring ingress or domain for ingress-ip 
-
-  # - name: backend-config
-  #   literals:
-  #     - PORT=8000
-  #     - mongoDBURL=mongodb://admin:password123@mongodb-deployment-0.mongodb-service-headless.mern-devops.svc.cluster.local:27017/db?authSource=admin
-
 
 secretGenerator:
   - name: mongo-secret
