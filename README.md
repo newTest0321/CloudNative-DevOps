@@ -1,6 +1,6 @@
 # CloudNative DevOps Blueprint
 
-This project is designed to facilitate the deployment of a MERN (MongoDB, Express, React, Node.js) application by integrating key DevOps tools and best practices. It leverages Docker for containerization, Kubernetes for orchestration, Jenkins for CI/CD automation, Helm for package management, ArgoCD for GitOps-based deployment, Kustomize for environment-specific configurations, and Prometheus/Grafana for monitoring and observability.
+This project is designed to facilitate the deployment of a MERN (MongoDB, Express, React, Node.js) application by integrating key DevOps tools and best practices. It leverages Docker for containerization, Kubernetes for orchestration, Jenkins for CI/CD automation, Helm for package management, ArgoCD for GitOps-based deployment, Argo Rollouts for progressive delivery, Kustomize for environment-specific configurations, and Prometheus/Grafana for monitoring and observability.
 
 ## Overview
 
@@ -15,6 +15,8 @@ This project includes:
 - **Helm Deployment**: Managing Kubernetes deployments using Helm charts for MongoDB, backend, and frontend services.
 
 - **ArgoCD GitOps**: Continuously deploying and synchronizing the application with the GitHub repository.
+
+- **Argo Rollouts**: Implementing progressive delivery with canary deployments for safe and controlled application updates with automated rollback capabilities.
 
 - **Kustomize**: Managing Kubernetes configurations for different environments without modifying base YAML files.
 
@@ -45,10 +47,11 @@ To understand the various components of this project, refer to the following doc
 - **[ArgoCD.md](./docs/ArgoCD.md)**:  
   A step-by-step guide on installing, configuring, and using ArgoCD to deploy the application by connecting ArgoCD to the GitHub repository.
 
+- **[ArgoRollouts.md](./docs/ArgoRollouts.md)**:  
+  Guide on implementing canary deployments using Argo Rollouts for progressive delivery, including installation, configuration, traffic management, and rollback strategies.
+
 - **[Kustomize.md](./docs/Kustomize.md)**:  
   Steps on how to manage multiple environments (Dev, Prod) using Kustomize for Kubernetes configurations.
 
 - **[Observability.md](./docs/Observability.md)**:  
   Instructions on setting up Prometheus for monitoring application metrics and visualizing data with Grafana dashboards.
-
-  
