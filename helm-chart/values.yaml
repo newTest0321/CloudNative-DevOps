@@ -20,13 +20,13 @@ frontend:
       maxUnavailable: 0
 
   service:
-    type: NodePort
+    type: ClusterIP # Change to NodePort if needed
     port: 5173
-    nodePort: 31000
+    # nodePort: 31000
 
   config:
-    backendUrl: http://192.168.88.133:31100 # Using nodeport service
-    # backendUrl: ""  # after configuring ingress 
+    # backendUrl: http://192.168.88.133:31100 # Using nodeport service
+    backendUrl: ""  # after configuring ingress 
     # backendUrl: http://deployzone.duckdns.org # after configuring donain for ingress-ip 
 
 
@@ -50,9 +50,9 @@ backend:
       maxUnavailable: 0
 
   service:
-    type: NodePort
+    type: ClusterIP # Change to NodePort if needed
     port: 8000
-    nodePort: 31100
+    # nodePort: 31100
 
 
 persistentVolume:
