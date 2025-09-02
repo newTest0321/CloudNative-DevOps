@@ -1,3 +1,5 @@
+# The Gateway creates the entry point for external traffic into the mesh.
+---
 apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
@@ -5,7 +7,7 @@ metadata:
   namespace: mern-devops
 spec:
   selector:
-    istio: ingressgateway # use istio default controller
+    istio: ingress # use Istio's built-in ingress gateway
   servers:
   - port:
       number: 80
@@ -13,32 +15,3 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-
----
-apiVersion: networking.istio.io/v1
-kind: VirtualService
-metadata:
-  name: virtualservice
-  namespace: mern-devops
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - gateway
-  http:
-  - match:
-    - uri:
-        prefix: /books
-    route:
-    - destination:
-        host: backend-service 
-        port:
-          number: 8000
-  - match:
-    - uri:
-        prefix: /
-    route:
-    - destination:
-        host: frontend-service
-        port:
-          number: 5173

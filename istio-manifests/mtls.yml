@@ -1,3 +1,5 @@
+# mTLS Strict mode ensures that all communications within the mesh are encrypted and authenticated.
+---
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
