@@ -19,6 +19,13 @@ The Jenkins pipeline is divided into two major components:
    - Pushes the updated configurations back to GitHub.
    - Notifies the team via email about the build and deployment status.
 
+![jenkins-home](./assets/jenkins-home.png)
+![jenkins-ci](./assets/jenkins-ci.png)
+![jenkins-cd](./assets/jenkins-cd.png)
+
+![sonar-report](./assets/sonar-report.png)
+
+
 ---
 
 

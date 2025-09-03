@@ -74,6 +74,9 @@ pipeline {
                         
                         echo "Checking git status..."
                         git status
+
+                        echo "Adding changes..."
+                        git add kubernetes/*.yml
                         
                         echo "Committing changes..."
                         git commit -m "GitOps: Update image tags to frontend:${params.FRONTEND_DOCKER_TAG}, backend:${params.BACKEND_DOCKER_TAG}" || echo "No changes to commit"
