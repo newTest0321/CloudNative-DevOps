@@ -62,7 +62,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 • Kubernetes<br>
 • Helm<br>
 • Kustomize<br>
-• Kind (local)
+• Istio
 </td>
 <td>
 • Prometheus<br>
@@ -75,31 +75,44 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 
 ## 📚 Documentation Hub
 
-### 🚀 **Quick Start Guides**
+### 🐳 **Containerization**
 
-<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #2196F3;">
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #284cdfff;">
 <tr>
-<td width="50%" style="border: 2px solid #2196F3; padding: 20px; vertical-align: top;">
+<td width="30%" style="border: 2px solid #284cdfff; padding: 20px ; vertical-align: top;">
 
-#### 🐳 **Containerization**
 **[Docker.md](./docs/Docker.md)**  
-*Build and run containers with Docker Compose*
+*Build and run containers with Docker Compose for multi-service applications*
 - Multi-stage Dockerfiles
 - Production optimizations
 - Container networking
 - Volume management
 
----
+</td>
+<td width="60%" style="border: 2px solid #284cdfff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-#### ☸️ **Local Kubernetes**
+<img src="./docs/assets/docker-compose.png" alt="Docker Compose Image" width="100%">
+
+</td>
+</tr>
+</table>
+
+### 🎯 **Advanced Deployment**
+
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #23ce26ff;">
+<tr>
+<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
+
+#### ☸️ **Kubernetes (Local)**
 **[Kubernetes.md](./docs/Kubernetes.md)**  
 *Deploy on kind cluster with ingress*
 - Persistent storage setup
-- Service mesh configuration
+- Demonset and Statefulset Deployments
 - Load balancing
 - Health checks
+
 </td>
-<td width="50%" style="border: 2px solid #2196F3; padding: 20px; vertical-align: top;">
+<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
 
 #### 🔄 **CI/CD Pipeline**
 **[Jenkins.md](./docs/Jenkins.md)**  
@@ -109,34 +122,8 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 - Quality gates
 - Notification system
 
----
-
-#### 📈 **Monotpring & Alerting**
-**[Observability.md](./docs/Observability.md)**  
-*Comprehensive monitoring with Prometheus & Grafana*
-- Custom dashboards
-- Alert rules
-- Performance metrics
-- Log aggregation
-
 </td>
-</tr>
-</table>
-
-### 🎯 **Advanced Deployment**
-
-<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #FF9800;">
-<tr>
-<td width="50%" style="border: 2px solid #FF9800; padding: 20px; vertical-align: top;">
-
-#### 🚀 **GitOps Deployment**
-**[ArgoCD.md](./docs/ArgoCD.md)**  
-*Continuous deployment with Git sync*
-- Repository connection
-- Application management
-- Sync policies
-
----
+<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
 
 #### 📦 **Package Management**
 **[Helm.md](./docs/Helm.md)**  
@@ -146,18 +133,9 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 - Release lifecycle
 
 </td>
-<td width="50%" style="border: 2px solid #FF9800; padding: 20px; vertical-align: top;">
+<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
 
-#### 🎯 **Progressive Delivery**
-**[ArgoRollouts.md](./docs/ArgoRollouts.md)**  
-*Canary deployments with automated rollbacks*
-- Traffic splitting
-- Analysis templates
-- Rollback strategies
-
----
-
-#### 🔧 **Configuration Management**
+#### 🔧 **Multi Env Management**
 **[Kustomize.md](./docs/Kustomize.md)**  
 *Environment-specific configurations*
 - Base and overlay patterns
@@ -168,7 +146,97 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </tr>
 </table>
 
-### **Production Deployment**
+### 📈 **Monitoring & Alerting**
+
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #bc2323ff;">
+<tr>
+<td width="30%" style="border: 2px solid #bc2323ff; padding: 20px ; vertical-align: top;">
+
+<!-- #### 📈 **Monitoring & Alerting** -->
+**[Observability.md](./docs/Observability.md)**  
+*Comprehensive monitoring with Prometheus & Grafana*
+- Custom dashboards
+- Alert rules
+- Performance metrics
+- Log aggregation  
+
+</td>
+<td width="60%" style="border: 2px solid #bc2323ff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
+
+<img src="./docs/assets/graphana-3.png" alt="Grafana Dashboard" width="100%">
+
+</td>
+</tr>
+</table>
+
+### 🚀 **GitOps Deployment**
+
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #c9772bff;">
+<tr>
+<td width="30%" style="border: 2px solid #c9772bff; padding: 20px ; vertical-align: top;">
+
+**[ArgoCD.md](./docs/ArgoCD.md)**  
+*Continuous deployment with Git sync and automated application lifecycle management*
+- Repository connection
+- Application management
+- Sync policies   
+- Multi-cluster deployment
+- RBAC integration
+
+</td>
+<td width="60%" style="border: 2px solid #c9772bff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
+
+<img src="./docs/assets/argocd-5.png" alt="ArgoCD Dashboard" width="100%">
+
+</td>
+</tr>
+</table>
+
+
+### 🎯 **Progressive Delivery**
+
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #c9772bff;">
+<tr>
+<td width="30%" style="border: 2px solid #c9772bff; padding: 20px ; vertical-align: top;">
+
+**[ArgoRollouts.md](./docs/ArgoRollouts.md)**  
+*Canary deployments with automated rollbacks*
+- Traffic splitting
+- Analysis templates
+- Rollback strategies  
+
+</td>
+<td width="60%" style="border: 2px solid #c9772bff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
+
+<img src="./docs/assets/argo-rollouts-dash-3.png" alt="Argo Rollouts Dashboard Diagram" width="100%">
+
+</td>
+</tr>
+</table>
+
+### 🕸️ **Service Mesh**  
+
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #4297ccff;">
+<tr>
+<td width="30%" style="border: 2px solid #42a4bcff; padding: 20px ; vertical-align: top;">
+
+**[Istio.md](./docs/Istio.md)**  
+*Advanced traffic management and security with service mesh capabilities*  
+- mTLS encryption  
+- Traffic splitting & canary  
+- Observability & tracing  
+- Policy enforcement   
+
+</td>
+<td width="60%" style="border: 2px solid #42a4bcff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
+
+<img src="./docs/assets/kiali-app-graph.png" alt="Kiali Service Mesh Graph" width="100%">
+
+</td>
+</tr>
+</table>
+
+### ☁︎ **Production Deployment**
 
 <table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #7B42BC;">
 <tr>
@@ -184,7 +252,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 - Add-ons installation
 
 </td>
-<td width="40%" style="border: 2px solid #7B42BC; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
+<td width="60%" style="border: 2px solid #7B42BC; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
 <img src="./docs/assets/terraform_architecture.png" alt="Terraform AWS EKS Diagram" width="100%">
 
