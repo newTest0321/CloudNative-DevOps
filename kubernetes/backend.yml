@@ -22,7 +22,7 @@ spec:
         fsGroup: 2000  # Group ID for volume access if needed
       containers:
         - name: backend
-          image: atkaridarshan04/bookstore-backend:v2
+          image: atkaridarshan04/bookstore-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
