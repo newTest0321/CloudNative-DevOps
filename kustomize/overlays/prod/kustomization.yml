@@ -14,9 +14,9 @@ patches:
 
 images:
   - name: atkaridarshan04/bookstore-frontend
-    newTag: v2
+    newTag: prod.v1
   - name: atkaridarshan04/bookstore-backend
-    newTag: v2
+    newTag: prod.v1
 
 configMapGenerator:
   - name: backend-config

@@ -10,29 +10,14 @@ We have configured the following environments with separate namespaces and ingre
 - **Staging (`overlays/staging`)** - Accessible via `staging.local`  
 - **Production (`overlays/prod`)** - Accessible via `prod.local`
 
-### Key Differences Between Environments
-Each environment applies specific patches to modify:
+### Environment Matrix
 
-1. **Namespace Isolation**
-   - Development: `dev` namespace
-   - Staging: `staging` namespace
-   - Production: `prod` namespace
+| Environment | Namespace | Host | Replicas | Prefix |
+|-------------|-----------|------|----------|--------|
+| **Development** | `dev` | `dev.local` | 1 | `dev-` |
+| **Staging** | `staging` | `staging.local` | 1 | `staging-` |
+| **Production** | `prod` | `prod.local` | 2 | `prod-` |
 
-2. **Replica Count**
-   - Development: `replicas: 1`
-   - Staging: `replicas: 1`
-   - Production: `replicas: 2`
-
-3. **Ingress Hosts**
-   - Development: `dev.local`
-   - Staging: `staging.local`
-   - Production: `prod.local`
-
-4. **Resource Naming**
-   - Each environment uses name prefixes (`dev-`, `staging-`, `prod-`)
-
-5. **Database Connections**
-   - Environment-specific MongoDB connection strings with proper service discovery
 
 ## Configuration Management
 We use `configMapGenerator` and `secretGenerator` in Kustomize to manage ConfigMaps and Secrets. Each environment has its own backend configuration with environment-specific MongoDB URLs.
@@ -164,16 +149,26 @@ kubectl get pods --all-namespaces | grep -E "(dev|staging|prod)"
 # Check ingress configurations
 kubectl get ingress --all-namespaces
 ```
+![kustomize-overview](./assets/kustomize-overview.png)
 
-### Verify Application Functionality
-1. **Development**: Visit `http://dev.local` - Should show the MERN application
-2. **Staging**: Visit `http://staging.local` - Should show the MERN application  
-3. **Production**: Visit `http://prod.local` - Should show the MERN application
 
-### Check Backend API Endpoints
-- **Development**: `http://dev.local/books`
-- **Staging**: `http://staging.local/books`
-- **Production**: `http://prod.local/books`
+## Application Testing
+| Environment | Frontend URL | API Endpoint |
+|-------------|--------------|--------------|
+| Development | http://dev.local | http://dev.local/books |
+| Staging | http://staging.local | http://staging.local/books |
+| Production | http://prod.local | http://prod.local/books |
+
+
+#### Environment Screenshots
+![kustomize-dev](./assets/kustomize-dev.png)
+*Development Environment*
+
+![kustomize-stage](./assets/kustomize-stage.png)
+*Staging Environment*
+
+![kustomize-prod](./assets/kustomize-prod.png)
+*Production Environment*
 
 ### Accessing Applications Without /etc/hosts
 If you prefer not to modify `/etc/hosts`, you can access applications using port-forwarding:
