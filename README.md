@@ -180,8 +180,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 <tr>
 <td width="30%" style="border: 2px solid #bc2323ff; padding: 20px ; vertical-align: top;">
 
-<!-- #### 📈 **Monitoring & Alerting** -->
-**[Observability.md](./docs/Observability.md)**  
+**[Monitoring.md](./docs/Monitoring.md)**  
 *Comprehensive monitoring with Prometheus & Grafana*
 - Custom dashboards
 - Alert rules
