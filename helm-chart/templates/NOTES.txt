@@ -1,30 +1,26 @@
-Thank you for deploying the {{ .Chart.Name }} Helm chart!
+🚀 MERN Stack Application Successfully Deployed!
+================================================================================
 
-Your application is now up and running in the "{{ .Values.namespace }}" namespace. Below are the details of your deployed components:
+📋 DEPLOYMENT SUMMARY:
+  Release Name:    {{ .Release.Name }}
+  Namespace:       {{ .Values.namespace }}
+  Chart Version:   {{ .Chart.Version }}
+  App Version:     {{ .Chart.AppVersion }}
 
----
+🌐 APPLICATION ACCESS:
+If using "Ingress":
+  Your application is available at:
+  🔗 http://<<instance-ip>>
+If using "NodePort Service"
+  Your application is available at:
+  🔗 http://<<instance-ip>>:31000
 
-MongoDB 
-- Service Name: {{ .Release.Name }}-mongodb-service
-- Database URL: mongodb://{{ .Values.mongodb.username }}:{{ .Values.mongodb.password }}@{{ .Release.Name }}-mongodb-service:27017/db?authSource=admin
+IMPORTANT NOTES:
+  - MongoDB data is persisted using PVC
+  - Default credentials are stored in secrets
+  - Health checks are configured for all services
+  - Rolling updates are enabled for zero-downtime deployments
 
-Frontend 
-- Service Name: {{ .Release.Name }}-frontend-service
-- Service Port: {{ .Values.frontend.containerPort }}
-- Access the application at: 
-  If using NodePort: http://[Cluster Node IP]:{{ .Values.frontend.service.nodePort }}
-  If using Ingress: http://[Cluster Node IP]
+📖 For more information, visit: https://github.com/atkaridarshan04/CloudNative-DevOps-Blueprint/
 
-Backend
-- Service Name: {{ .Release.Name }}-backend-service
-- Service Port: {{ .Values.backend.containerPort }}
-- Access the application at: 
-  If using NodePort: http://[Cluster Node IP]:{{ .Values.backend.service.nodePort }}
-  If using Ingress: http://[Cluster Node IP]
-
----
-
-To uninstall the chart and clean up all resources, run:
-  helm uninstall {{ .Release.Name }} -n {{ .Values.namespace }}
-
-Thank you for using {{ .Chart.Name }}!
+Happy Helming! 🎉
