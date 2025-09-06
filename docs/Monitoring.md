@@ -1,4 +1,4 @@
-# 📊 Monitoring & Observability
+# 📊 Monitoring & Observability with Prometheus & Grafana
 
 This guide covers setting up comprehensive monitoring for your Kubernetes cluster using Prometheus and Grafana stack.
 

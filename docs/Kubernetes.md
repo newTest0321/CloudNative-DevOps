@@ -1,4 +1,4 @@
-# Kubernetes Deployment with Kind
+# ☸️ Kubernetes Deployment & Container Orchestration
 
 ## Cluster Configuration: `kind-config.yaml`
 
@@ -10,9 +10,6 @@ nodes:
     extraPortMappings:
       - containerPort: 80   # for nginx ingress
         hostPort: 80
-        protocol: TCP
-      - containerPort: 443  # for HTTPS ingress
-        hostPort: 443
         protocol: TCP
       - containerPort: 31000 # for frontend container
         hostPort: 31000

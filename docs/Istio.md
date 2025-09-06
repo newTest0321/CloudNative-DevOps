@@ -1,4 +1,4 @@
-# **Istio Service Mesh Implementation**
+# 🕸️ Service Mesh Implementation with Istio
 
 This guide provides step-by-step instructions to **install and configure Istio service mesh** and **deploy the MERN application** with advanced traffic management, security, and observability features.
 

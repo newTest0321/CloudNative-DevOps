@@ -1,4 +1,4 @@
-# Managing Multiple Kubernetes Environments with Kustomize
+# Multi-Environment Configuration with Kustomize
 
 ## Overview
 Kustomize simplifies Kubernetes configurations by allowing environment-specific customizations without modifying the base YAML files. This part demonstrates how to manage multiple environments using Kustomize with ingress-based routing, enabling you to deploy and access different versions of your MERN application through distinct hostnames.

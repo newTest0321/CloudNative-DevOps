@@ -1,4 +1,4 @@
-# Jenkins CI/CD Pipeline for MERN Stack Application
+# 🔄 CI/CD Pipeline Automation with Jenkins
 
 This guide explains the Jenkins pipeline used to automate the Continuous Integration (CI) and Continuous Deployment (CD) processes for the MERN stack application.
 
