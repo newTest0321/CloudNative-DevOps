@@ -33,42 +33,7 @@ nodes:
   ```
 
 
-
-## Step 2: Package the Helm Charts
-
-```bash
-helm package helm-chart
-```
-
-This will create `.tgz` files for each chart in the current directory.
-
-
-## Step 3: Install the Helm Charts
-
-Install each chart using Helm:
-
-```bash
-helm install helm-chart ./helm-chart
-```
-
-### Verify
-
-List all Helm releases to confirm they are deployed:
-
-```bash
-helm ls -n
-```
-![helm-install](./assets/helm-ls.png)
-
-Check the status of all resources in the Kubernetes cluster:
-
-```bash
-kubectl get all -n mern-devops
-```
-![helm-get-all](./assets/K8s-4.png)
-
-
-## Step 4: Configure Ingress
+## Step 2: Configure Ingress
 
 Deploy the Ingress controller:
 
@@ -91,13 +56,39 @@ Verify the Ingress controller is running:
 kubectl get pods --namespace ingress-nginx
 ```
 
-
-Repackage and reinstall the chart:
+## Step 3: Package the Helm Charts
 
 ```bash
 helm package helm-chart
+```
+
+This will create `.tgz` files for each chart in the current directory.
+
+
+
+## Step 4: Install the Helm Charts
+
+Install each chart using Helm:
+
+```bash
 helm install helm-chart ./helm-chart
 ```
+
+### 5. Verify
+
+List all Helm releases to confirm they are deployed:
+
+```bash
+helm ls
+```
+![helm-install](./assets/helm-ls.png)
+
+Check the status of all resources in the Kubernetes cluster:
+
+```bash
+kubectl get all -n mern-devops
+```
+![helm-get-all](./assets/K8s-4.png)
 
 Access the application at:
 
@@ -107,7 +98,7 @@ http://<node-ip>
 ![helm-dns](./assets/helm-dns.png)
 
 
-## Step 5: Cleanup
+## Step 6: Cleanup
 
 If you need to uninstall the deployed Helm charts, use the following commands:
 
