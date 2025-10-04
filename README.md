@@ -43,7 +43,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 <td align="center"><strong>🏗️ Infrastructure</strong></td>
 <td align="center"><strong>🔄 CI/CD</strong></td>
 <td align="center"><strong>☸️ Orchestration</strong></td>
-<td align="center"><strong>📊 Monitoring</strong></td>
+<td align="center"><strong>📊 Observability</strong></td>
 </tr>
 <tr>
 <td>
@@ -67,8 +67,8 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 <td>
 • Prometheus<br>
 • Grafana<br>
-• AlertManager<br>
-• Custom Metrics
+• Loki<br>
+• Alloy
 </td>
 </tr>
 </table>
@@ -107,7 +107,6 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 *Deploy on kind cluster with ingress*
 - Persistent storage setup
 - Demonset and Statefulset Deployments
-- Load balancing
 - Health checks
 - Secrets and Configuration Management
 - Ingress Deployment
@@ -174,23 +173,27 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </tr>
 </table>
 
-### 📈 **Monitoring & Alerting**
+### 📈 **Observability**
 
 <table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #bc2323ff;">
 <tr>
 <td width="30%" style="border: 2px solid #bc2323ff; padding: 20px ; vertical-align: top;">
 
-**[Monitoring.md](./docs/Monitoring.md)**  
-*Comprehensive monitoring with Prometheus & Grafana*
-- Custom dashboards
-- Alert rules
-- Performance metrics
-- Log aggregation  
+**[Observability.md](./docs/Observability.md)**  
+*Comprehensive observability with Prometheus, Grafana, Loki & Alloy*
+- Metrics collection & storage
+- Kube Prometheus Stack Dashboards
+- Real-time monitoring dashboards
+- Centralized log aggregation
+- Performance & resource tracking
+- Alert management & notifications
+- Log analysis & troubleshooting
 
 </td>
 <td width="60%" style="border: 2px solid #bc2323ff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/graphana-3.png" alt="Grafana Dashboard" width="100%">
+<img src="./docs/assets/graphana-3.png" alt="Grafana Monitoring Dashboard" width="100%">
+<img src="./docs/assets/logs-1.png" alt="Grafana Logging Dashboard" width="100%">
 
 </td>
 </tr>
