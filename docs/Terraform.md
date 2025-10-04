@@ -1,4 +1,4 @@
-# Deploying Application on AWS EKS - Terraform Infra
+# 🏗️ Deploying Application on AWS EKS with Terraform
 
 This guide contains the Terraform configuration for deploying the Book store application infrastructure on AWS EKS.
 

@@ -1,158 +1,115 @@
-# **Deploying the MERN Application Using ArgoCD**  
+# ⚡ GitOps Continuous Delivery with ArgoCD
 
-This guide provides step-by-step instructions to **install and configure ArgoCD** and **deploy the MERN application** using ArgoCD linked to GitHub repository.
+This guide demonstrates how to deploy and manage the MERN stack application using ArgoCD for GitOps continuous delivery, enabling automated synchronization between Git repository and Kubernetes cluster.
 
-## Cluster Configuration: `kind-config.yaml`
+## Overview
+
+ArgoCD provides declarative GitOps continuous delivery for Kubernetes applications. This setup enables:
+- Automated deployment from Git repository
+- Real-time synchronization with cluster state
+- Easy rollback and application lifecycle management
+- Multi-environment deployment capabilities
+
+## Cluster Configuration
 
 ```yaml
+# kind-config.yaml
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
   extraPortMappings:
-  - containerPort: 80 # for nginx ingress
+  - containerPort: 80
     hostPort: 80
     protocol: TCP
-  - containerPort: 443
-    hostPort: 443
-    protocol: TCP
-  - containerPort: 31000 # for frontend container 
-    hostPort: 31000
-    protocol: TCP
-  - containerPort: 31100 # for backend container
-    hostPort: 31100
-    protocol: TCP
-  - containerPort: 30001 # for argocd
+  - containerPort: 30001
     hostPort: 30001
     protocol: TCP
 ```
 
-## **1. Install and Configure ArgoCD**
+## 1. Install and Configure ArgoCD
 
-### **1 Create the ArgoCD Namespace**
+### Create ArgoCD Namespace
 ```bash
 kubectl create namespace argocd
 ```
 
-### **2 Apply the ArgoCD Manifest**
+### Install ArgoCD
 ```bash
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-### **3 Verify ArgoCD Pods are Running**
+### Verify Installation
 ```bash
 watch kubectl get pods -n argocd
 ```
-Make sure all the pods are in a **Running** state.
+Ensure all pods are in **Running** state.
 
----
-
-### **4 Check ArgoCD Services**
+### Configure Service Access
 ```bash
+# Check services
 kubectl get svc -n argocd
-```
 
-### **5 Change ArgoCD Server Service to NodePort**
-```bash
+# Change to NodePort
 kubectl patch svc argocd-server -n argocd \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 8080, "nodePort": 30001}]}}'
-```
 
-<!-- Configure the nodePort `30001`
-```bash
-kubectl patch edit argocd-server -n argocd 
-```
-
-![argocd](./assets/argocd.png) -->
-
-### **6 Confirm Service Type Change**
-```bash
+# Confirm change
 kubectl get svc -n argocd
 ```
-Look for the **NodePort** under the `argocd-server` service.
 
----
+### Access ArgoCD UI
+```bash
+# Get NodePort
+kubectl get svc argocd-server -n argocd
+```
+Access at: `http://<public-ip-worker>:<NodePort>`
 
-### **7 Access the ArgoCD UI**
-1. Find the NodePort assigned to the server:
-   ```bash
-   kubectl get svc argocd-server -n argocd
-   ```
-2. Access the ArgoCD UI in your browser:
-   ```
-   http://<public-ip-worker>:<NodePort>
-   ```
-   > **Note**: If you encounter a security warning, click **Advanced** and proceed.
-
----
-
-### **8 Retrieve the Initial ArgoCD Admin Password**
+### Get Admin Credentials
 ```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
-- **Username:** `admin`  
-- Use the above password for the first login.
+- **Username:** `admin`
+- **Password:** Use output from above command
 
----
+> Change the default password after first login in **User Info**.
 
-### **9 Update the ArgoCD Admin Password**
-After logging in, go to **User Info** and change the default password for enhanced security.
+## 2. Deploy MERN Application
 
-
-## **2. Deploy the MERN Application Using ArgoCD**
-
-### Using Manifests
-
-```
+### Method 1: Using Manifests
+```bash
 kubectl apply -f ./argocd/project.yml
 kubectl apply -f ./argocd/application.yml
 ```
 
-Go to the ArgoCD Web UI to verify and manage the application.
+### Method 2: Using ArgoCD UI
 
----
-
-### Using ArgoCd Ui
-
-#### 1. Connect ArgoCD to the Application Repository
-1. Open the ArgoCD dashboard and click **New App**.
-2. Fill in the following details:
-   - **Application Name:** `mern-devops`  
-   - **Project:** `default`  
-   - **Sync Policy:** Choose `Manual` or `Automatic` based on your need.
+#### Connect to Repository
+1. Click **New App** in ArgoCD dashboard
+2. Configure application:
+   - **Application Name:** `mern-devops`
+   - **Project:** `default`
+   - **Sync Policy:** `Manual` or `Automatic`
    - Select `Auto-Create Namespace`
 
-   ![argocd-1](./assets/argocd-1.png)
+![argocd-1](./assets/argocd-1.png)
 
----
+#### Configure Repository
+- **Repository URL:** `https://github.com/atkaridarshan04/CloudNative-DevOps-Blueprint.git`
+- **Revision:** `main`
+- **Path:** `kubernetes`
 
-#### 2. Configure Repository Details
-- Repository URL:  
-  ```
-  https://github.com/atkaridarshan04/CloudNative-DevOps-Blueprint.git
-  ```
-- **Revision:**  
-  `main` (or any branch containing your Kubernetes manifests)  
-- **Path to Manifests:**  
-  `/kubernetes` 
+![argocd-2](./assets/argocd-2.png)
 
-  ![argocd-2](./assets/argocd-2.png)
+#### Set Destination
+- **Cluster:** Default cluster
+- **Namespace:** `mern-devops`
 
----
+![argocd-3](./assets/argocd-3.png)
 
-#### 3. Set Deployment Cluster and Namespace
-- **Cluster:** Select the default cluster if you are deploying to the same cluster.  
-- **Namespace:** Specify a target namespace for your app: `mern-devops`
+#### Deploy Application
+1. Click **Create**
+2. Sync the application in ArgoCD dashboard
 
-   ![argocd-3](./assets/argocd-3.png)
-
----
-
-#### 4. Save and Sync the Application
-1. Click **Create** to save the configuration.
-2. Open the application in the ArgoCD dashboard.
-
-   ![argocd-4](./assets/argocd-4.png)
-   ![argocd-5](./assets/argocd-5.png)
-
----
+![argocd-4](./assets/terraform_argocd.png)
+![argocd-5](./assets/argocd-5.png)

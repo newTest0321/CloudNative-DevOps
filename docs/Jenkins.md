@@ -1,4 +1,4 @@
-# Jenkins CI/CD Pipeline for MERN Stack Application
+# 🔄 CI/CD Pipeline Automation with Jenkins
 
 This guide explains the Jenkins pipeline used to automate the Continuous Integration (CI) and Continuous Deployment (CD) processes for the MERN stack application.
 
@@ -18,6 +18,13 @@ The Jenkins pipeline is divided into two major components:
    - Updates Kubernetes manifest files with the new Docker image tags.
    - Pushes the updated configurations back to GitHub.
    - Notifies the team via email about the build and deployment status.
+
+![jenkins-home](./assets/jenkins-home.png)
+![jenkins-ci](./assets/jenkins-ci.png)
+![jenkins-cd](./assets/jenkins-cd.png)
+
+![sonar-report](./assets/sonar-report.png)
+
 
 ---
 

@@ -1,4 +1,4 @@
-# Kubernetes Deployment with Kind
+# ☸️ Kubernetes Deployment & Container Orchestration
 
 ## Cluster Configuration: `kind-config.yaml`
 
@@ -10,9 +10,6 @@ nodes:
     extraPortMappings:
       - containerPort: 80   # for nginx ingress
         hostPort: 80
-        protocol: TCP
-      - containerPort: 443  # for HTTPS ingress
-        hostPort: 443
         protocol: TCP
       - containerPort: 31000 # for frontend container
         hostPort: 31000
@@ -114,7 +111,7 @@ kubectl apply -f frontend.yml
 kubectl get all -n mern-devops
 ```  
 
-![K8s-4.png](./assets/K8s-4.png)
+<!-- ![K8s-4.png](./assets/K8s-4.png) -->
 
 - **Frontend:** Access the application at:
   
@@ -212,7 +209,52 @@ Integrate DuckDNS for domain-based access:
 
 
 
-## 10. Cleanup
+## 10. Deploying Kubernetes Dashboard (Optional)
+
+### Step 1. Add kubernetes-dashboard repository
+
+```bash
+# Add kubernetes-dashboard repository
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+# Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+```
+
+### Step 2. Wait for the pods to be running
+```bash
+kubect get pods -n kubernetes-dashboard
+```
+
+![k8s-dash-1](./assets/k8s-dash-1.png)
+
+### Step 3. Access the Dashboard
+```bash
+# Port Forwarding the port
+kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
+```
+
+> Navigate to [https://localhost:8443](https://localhost:8443)
+
+### Step 4. Generate the Bearer Token required to login
+- Create ServiceAccount and give permissions
+
+  ```bash
+  kubectl create serviceaccount dashboard-sa -n mern-devops
+
+  kubectl create clusterrolebinding dashboard-sa-binding \
+    --clusterrole=cluster-admin \
+    --serviceaccount=mern-devops:dashboard-sa
+  ```
+
+- Generate the token:
+  ```bash
+  kubectl -n mern-devops create token dashboard-sa
+  ```
+
+![k8s-dash-2](./assets/k8s-dash-2.png)
+![k8s-dash-3](./assets/k8s-dash-3.png)
+
+## 11. Cleanup
 
 To remove all deployed resources and delete the cluster:
 

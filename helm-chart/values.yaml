@@ -27,7 +27,6 @@ frontend:
   config:
     # backendUrl: http://192.168.88.133:31100 # Using nodeport service
     backendUrl: ""  # after configuring ingress 
-    # backendUrl: http://deployzone.duckdns.org # after configuring donain for ingress-ip 
 
 
 backend: 
@@ -71,11 +70,10 @@ persistentVolumeClaim:
 mongodb:
   replicas: 1
   image: mongo:4.4
+  serviceName: mongodb-service
 
   username: admin
   password: password123
   dbName: db
-  
-  serviceType: ClusterIP
-  serviceName: mongodb-service  # default service name without release name
+
   authSource: admin

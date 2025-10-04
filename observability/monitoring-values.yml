@@ -1,0 +1,102 @@
+# Persistence for Prometheus
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+          storageClassName: standard
+  # Service for Prometheus (usually ClusterIP, but LoadBalancer for dev)
+  service:
+    type: LoadBalancer
+
+# Disable Alertmanager (enable if you want alerts)
+alertmanager:
+  enabled: false
+
+# Node Exporter for system metrics
+nodeExporter:
+  enabled: true
+
+# Kubernetes state metrics
+kubeStateMetrics:
+  enabled: true
+
+# Additional scrape configurations
+additionalScrapeConfigs:
+  - job_name: node-exporter
+    static_configs:
+      - targets:
+          - node-exporter:9100
+  - job_name: kube-state-metrics
+    static_configs:
+      - targets:
+          - kube-state-metrics:8080
+
+# Resources
+prometheusOperator:
+  enabled: true
+
+# ---------------------------------------------------------------------------------
+# Grafana configuration (bundled inside kube-prometheus-stack)
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: password
+  service:
+    type: LoadBalancer
+  persistence:
+    enabled: true
+    type: pvc
+    size: 5Gi
+    storageClassName: standard
+
+  # Extra datasources (Prometheus is auto-configured by default)
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-gateway.observability.svc.cluster.local:80
+
+# Dashboard provisioning
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+      - name: 'loki'
+        orgId: 1
+        folder: 'Loki Logs'
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/loki
+
+  # Auto-import dashboards
+  dashboards:
+    default:
+      kubernetes-cluster:
+        gnetId: 7249
+        revision: 1
+        datasource: Prometheus
+    
+    loki:
+      loki-logs:
+        gnetId: 13639
+        revision: 2
+        datasource: Loki
+      container-logs:
+        gnetId: 16966
+        revision: 1
+        datasource: Loki

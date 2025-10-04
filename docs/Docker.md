@@ -1,4 +1,4 @@
-# Dockerizing a MERN Stack Application
+# 🐳 Containerizing MERN Stack with Docker
 
 This guide explains how to containerize and run a MERN (MongoDB, Express, React, Node.js) stack application using **Docker** and **Docker Compose**. Additionally, it covers using **Docker Bake** for images builds and pushing images to **Docker Hub**.
 

@@ -43,7 +43,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 <td align="center"><strong>🏗️ Infrastructure</strong></td>
 <td align="center"><strong>🔄 CI/CD</strong></td>
 <td align="center"><strong>☸️ Orchestration</strong></td>
-<td align="center"><strong>📊 Monitoring</strong></td>
+<td align="center"><strong>📊 Observability</strong></td>
 </tr>
 <tr>
 <td>
@@ -67,8 +67,8 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 <td>
 • Prometheus<br>
 • Grafana<br>
-• AlertManager<br>
-• Custom Metrics
+• Loki<br>
+• Alloy
 </td>
 </tr>
 </table>
@@ -77,9 +77,9 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 
 ### 🐳 **Containerization**
 
-<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #284cdfff;">
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #2e6ccaff;">
 <tr>
-<td width="30%" style="border: 2px solid #284cdfff; padding: 20px ; vertical-align: top;">
+<td width="30%" style="border: 2px solid #2e6ccaff; padding: 20px ; vertical-align: top;">
 
 **[Docker.md](./docs/Docker.md)**  
 *Build and run containers with Docker Compose for multi-service applications*
@@ -89,7 +89,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 - Volume management
 
 </td>
-<td width="60%" style="border: 2px solid #284cdfff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
+<td width="60%" style="border: 2px solid #2e6ccaff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
 <img src="./docs/assets/docker-compose.png" alt="Docker Compose Image" width="100%">
 
@@ -97,35 +97,62 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </tr>
 </table>
 
-### 🎯 **Advanced Deployment**
+### ☸️ **Kubernetes**
 
-<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #23ce26ff;">
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #284cdfff;">
 <tr>
-<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
+<td width="30%" style="border: 2px solid #284cdfff; padding: 20px ; vertical-align: top;">
 
-#### ☸️ **Kubernetes (Local)**
 **[Kubernetes.md](./docs/Kubernetes.md)**  
 *Deploy on kind cluster with ingress*
 - Persistent storage setup
 - Demonset and Statefulset Deployments
-- Load balancing
 - Health checks
+- Secrets and Configuration Management
+- Ingress Deployment
 
 </td>
-<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
+<td width="60%" style="border: 2px solid #284cdfff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-#### 🔄 **CI/CD Pipeline**
+<img src="./docs/assets/k8s-dash-2.png" alt="Kubernetes Dashboard Image" width="100%">
+
+</td>
+</tr>
+</table>
+
+
+### 🔄 **CI/CD Pipeline**
+
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #b84c09ff;">
+<tr>
+<td width="30%" style="border: 2px solid #b84c09ff; padding: 20px ; vertical-align: top;">
+
 **[Jenkins.md](./docs/Jenkins.md)**  
 *Automated build, test, and deployment*
 - Multi-stage pipeline
-- Security scanning
+- Sonar scanning
 - Quality gates
+- Trivy Scanning
+- Docker Images Build and Push
 - Notification system
 
 </td>
-<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
+<td width="60%" style="border: 2px solid #b84c09ff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-#### 📦 **Package Management**
+<img src="./docs/assets/jenkins-ci.png" alt="Jenkins CI Image" width="100%">
+<img src="./docs/assets/jenkins-cd.png" alt="Jenkins CI Image" width="100%">
+
+</td>
+</tr>
+</table>
+
+### 📦 **Package & Configuration Management**
+
+<table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #23ce26ff;">
+<tr>
+<td width="50%" style="border: 2px solid #23ce26ff; padding: 20px; vertical-align: top;">
+
+#### 📦 **Helm Charts**
 **[Helm.md](./docs/Helm.md)**  
 *Template-based Kubernetes deployments*
 - Chart customization
@@ -133,9 +160,9 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 - Release lifecycle
 
 </td>
-<td width="25%" style="border: 2px solid #23ce26ff; padding: 15px; vertical-align: top;">
+<td width="50%" style="border: 2px solid #23ce26ff; padding: 20px; vertical-align: top;">
 
-#### 🔧 **Multi Env Management**
+#### 🔧 **Kustomize**
 **[Kustomize.md](./docs/Kustomize.md)**  
 *Environment-specific configurations*
 - Base and overlay patterns
@@ -146,24 +173,27 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </tr>
 </table>
 
-### 📈 **Monitoring & Alerting**
+### 📈 **Observability**
 
 <table border="1" cellpadding="15" cellspacing="0" style="border-collapse: collapse; width: 100%; border: 2px solid #bc2323ff;">
 <tr>
 <td width="30%" style="border: 2px solid #bc2323ff; padding: 20px ; vertical-align: top;">
 
-<!-- #### 📈 **Monitoring & Alerting** -->
 **[Observability.md](./docs/Observability.md)**  
-*Comprehensive monitoring with Prometheus & Grafana*
-- Custom dashboards
-- Alert rules
-- Performance metrics
-- Log aggregation  
+*Comprehensive observability with Prometheus, Grafana, Loki & Alloy*
+- Metrics collection & storage
+- Kube Prometheus Stack Dashboards
+- Real-time monitoring dashboards
+- Centralized log aggregation
+- Performance & resource tracking
+- Alert management & notifications
+- Log analysis & troubleshooting
 
 </td>
 <td width="60%" style="border: 2px solid #bc2323ff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/graphana-3.png" alt="Grafana Dashboard" width="100%">
+<img src="./docs/assets/graphana-3.png" alt="Grafana Monitoring Dashboard" width="100%">
+<img src="./docs/assets/logs-1.png" alt="Grafana Logging Dashboard" width="100%">
 
 </td>
 </tr>

@@ -14,7 +14,7 @@ spec:
               service:
                 name: prod-frontend-service
                 port:
-                  number: 5173
+                  number: 80
           - path: /books
             pathType: Prefix
             backend:

@@ -1,128 +1,134 @@
-# Setting up Observability 
+# 📊 Observability Stack: Monitoring & Logging
 
-### Create Cluster: `kind-config.yaml`
+Complete observability setup for Kubernetes with Prometheus, Grafana, Loki, and Alloy.
+
+## 🎯 Components
+
+**Monitoring:**
+- **Prometheus** - Metrics collection & storage
+- **Grafana** - Visualization & dashboards
+- **Node Exporter** - System metrics
+- **Kube State Metrics** - Kubernetes metrics
+
+**Logging:**
+- **Loki** - Log aggregation & storage
+- **Alloy** - Log collection & forwarding
+
+## 🚀 Setup
+
+### 1. Cluster Configuration
+
+**kind-config.yaml**
 ```yaml
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
-- role: control-plane
-  extraPortMappings:
-  - containerPort: 80 # for nginx ingress
-    hostPort: 80
-    protocol: TCP
-  - containerPort: 443
-    hostPort: 443
-    protocol: TCP
-  - containerPort: 31000 # for frontend container 
-    hostPort: 31000
-    protocol: TCP
-  - containerPort: 31100 # for backend container
-    hostPort: 31100
-    protocol: TCP
-  - containerPort: 30001 # for argocd
-    hostPort: 30001
-    protocol: TCP
-  - containerPort: 30002 # for prometheus
-    hostPort: 30002
-    protocol: TCP
-  - containerPort: 30003 # for graphana
-    hostPort: 30003
-    protocol: TCP
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 30002 # prometheus
+        hostPort: 30002
+        protocol: TCP
+      - containerPort: 30003 # grafana
+        hostPort: 30003
+        protocol: TCP
+      - containerPort: 30004 # loki
+        hostPort: 30004
+        protocol: TCP
 ```
 
 ```bash
 kind create cluster --config kind-config.yaml
 ```
 
----
+### 2. Install Stack
 
-## Steps to Install and Configure Prometheus and Grafana  
-
-### 1. **Install Helm on the Master Machine**  
 ```bash
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
-```
+kubectl create namespace observability
 
-### 2. **Add Helm Repositories**  
-Add the necessary Helm repositories for stable charts and Prometheus charts:  
-```bash
-helm repo add stable https://charts.helm.sh/stable
+# Add repositories
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
+
+# Install components
+helm install loki grafana/loki -f ./observability/loki-values.yml -n observability
+helm install monitoring prometheus-community/kube-prometheus-stack -f ./observability/monitoring-values.yml -n observability
+helm install alloy grafana/k8s-monitoring --values ./observability/alloy-values.yml -n observability
 ```
 
-### 3. **Create a Namespace for Prometheus**  
-Organize resources by creating a namespace:  
+### 3. Expose Services
+
 ```bash
-kubectl create namespace prometheus
-kubectl get ns
+# Prometheus
+kubectl patch svc monitoring-kube-prometheus-prometheus -n observability \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9090, "targetPort": 9090, "nodePort": 30002}]}}'
+
+# Grafana
+kubectl patch svc monitoring-grafana -n observability \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3000, "nodePort": 30003}]}}'
+
+# Loki
+kubectl patch svc loki -n observability \
+  -p '{"spec": {"type": "NodePort", "ports":[{"port":3100,"targetPort":3100,"nodePort":30004}]}}'
+
+# Alloy (port-forward)
+kubectl port-forward daemonset/alloy-alloy-logs 12345:12345 -n observability
 ```
 
-### 4. **Install Prometheus and Grafana Using Helm**  
-Deploy the `kube-prometheus-stack` Helm chart:  
-```bash
-helm install prometheus prometheus-community/kube-prometheus-stack -n prometheus
-```
+## 🔗 Access URLs
 
-### 5. **Verify the Installation**  
-Check if the Prometheus components are deployed:  
-```bash
-kubectl get pods -n prometheus
-```
+- **Prometheus:** [http://localhost:30002](http://localhost:30002)
+- **Grafana:** [http://localhost:30003](http://localhost:30003) - `admin/password`
+- **Loki:** [http://localhost:30004/ready](http://localhost:30004/ready)
+- **Alloy:** [http://localhost:12345](http://localhost:12345)
 
-### 6. **Expose Prometheus and Grafana Services**  
-By default, services are set to `ClusterIP`. To make them accessible externally, change the type to `NodePort` or configure an ingress:  
+## 📈 Prometheus
 
-- **Edit Prometheus Service**:  
-  ```bash
-  kubectl edit svc prometheus-kube-prometheus-prometheus -n prometheus
-  ```  
-  Update `type: ClusterIP` to `type: NodePort` and save the file.  
-  ![prometheus.md](./assets/prometheus.png)
+Query metrics using PromQL, view targets, and configure alerts.
 
-- **Edit Grafana Service**:  
-  ```bash
-  kubectl edit svc prometheus-grafana -n prometheus
-  ```  
-  Similarly, update `type: ClusterIP` to `type: NodePort`. 
-  ![graphana.md](./assets/graphana.png)
+![prometheus-targets](./assets/prometheus-targets.png)
 
-### 7. **Verify Exposed Services**  
-Check the services to get the assigned NodePorts:  
-```bash
-kubectl get svc -n prometheus
-```
+![prometheus-query](./assets/prometheus-query.png)
 
-### 8. **Access Grafana Dashboard and Prometheus**  
-Retrieve the Grafana admin password and access the dashboard:  
-```bash
-kubectl get secret --namespace prometheus prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
-echo
-```
+## 📊 Grafana
 
-- **Grafana URL**: Access using `<NodeIP>:30003` in your browser.  
-  - Username: `admin`  
-  - Password: *(as retrieved above)*  
-- **Prometheus Url**: Access using `<NodeIP>:30002` in browser
+Pre-configured dashboards for cluster overview, node metrics, pod performance etc.
 
----
+![grafana-home](./assets/grafana-home.png)
+![grafana-datasource](./assets/grafana-data-source.png)
 
-### 9. **Set Up Monitoring Dashboards**  
-1. **Add Prometheus as Data Source**:  
-   - Navigate to **Configuration > Data Sources** in Grafana.  
-   - Add Prometheus as the data source.  
+### Drilldown
 
-2. **Import Predefined Dashboards**:  
-   - Visit [Grafana Dashboards](https://grafana.com/grafana/dashboards/) to download Kubernetes-specific dashboards, such as Node Exporter or Kube-State-Metrics.  
-   - Import the JSON files into Grafana under **Dashboards > Import**.  
+![metrics-drill](./assets/metrics-drill.png)
+![logs-drill](./assets/logs-drill.png)
 
-3. **Set Up Alerts**:  
-   - Configure alerts in Prometheus for key metrics like CPU usage, memory consumption, or pod availability.  
-   - Use Grafana to set up alerting rules and visualize trends.  
----
+## Loki
+
+![loki-metrics](./assets/loki-mertics.png)
+
+## 🔄 Alloy
+
+Collects logs from containers, system logs, and Kubernetes events.
+
+![alloy-1](./assets/alloy-1.png)
+
+![alloy-2](./assets/alloy-2.png)
+
+## 🎨 Dashboards
+
+### Monitoring
+
 ![graphana-1](./assets/graphana-1.png)
+
 ![graphana21](./assets/graphana-2.png)
+
 ![graphana31](./assets/graphana-3.png)
----
+
+### Logging
+
+![logs-1](./assets/logs-1.png)
+
+![logs-2](./assets/logs-2.png)
