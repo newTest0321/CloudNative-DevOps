@@ -1,0 +1,36 @@
+title: CloudNative DevOps Blueprint
+description: A comprehensive DevOps blueprint for deploying cloud-native applications with enterprise-grade tooling
+
+theme: minima
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+include:
+  - README.md
+  - docs/
+
+exclude:
+  - src/
+  - terraform/
+  - kubernetes/
+  - helm-chart/
+  - kustomize/
+  - argocd/
+  - argo-rollouts/
+  - istio-manifests/
+  - observability/
+  - gitops/
+  - kyverno/
+  - Jenkinsfile
+  - docker-compose.yml
+  - docker-bake.hcl
+  - .gitignore
+  - LICENSE
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
