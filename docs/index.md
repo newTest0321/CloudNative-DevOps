@@ -29,7 +29,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 
 <div align="center">
 
-![workflow-gif](./docs/assets/workflow.gif)
+![workflow-gif](./assets/workflow.gif)
 
 *End-to-end deployment pipeline from code commit to production*
 
@@ -91,7 +91,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #2e6ccaff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/docker-compose.png" alt="Docker Compose Image" width="100%">
+<img src="./assets/docker-compose.png" alt="Docker Compose Image" width="100%">
 
 </td>
 </tr>
@@ -114,7 +114,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #284cdfff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/k8s-dash-2.png" alt="Kubernetes Dashboard Image" width="100%">
+<img src="./assets/k8s-dash-2.png" alt="Kubernetes Dashboard Image" width="100%">
 
 </td>
 </tr>
@@ -139,8 +139,8 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #b84c09ff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/jenkins-ci.png" alt="Jenkins CI Image" width="100%">
-<img src="./docs/assets/jenkins-cd.png" alt="Jenkins CI Image" width="100%">
+<img src="./assets/jenkins-ci.png" alt="Jenkins CI Image" width="100%">
+<img src="./assets/jenkins-cd.png" alt="Jenkins CI Image" width="100%">
 
 </td>
 </tr>
@@ -201,8 +201,8 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #bc2323ff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/graphana-3.png" alt="Grafana Monitoring Dashboard" width="100%">
-<img src="./docs/assets/logs-1.png" alt="Grafana Logging Dashboard" width="100%">
+<img src="./assets/graphana-3.png" alt="Grafana Monitoring Dashboard" width="100%">
+<img src="./assets/logs-1.png" alt="Grafana Logging Dashboard" width="100%">
 
 </td>
 </tr>
@@ -225,7 +225,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #c9772bff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/argocd-5.png" alt="ArgoCD Dashboard" width="100%">
+<img src="./assets/argocd-5.png" alt="ArgoCD Dashboard" width="100%">
 
 </td>
 </tr>
@@ -247,7 +247,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #c9772bff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/argo-rollouts-dash-3.png" alt="Argo Rollouts Dashboard Diagram" width="100%">
+<img src="./assets/argo-rollouts-dash-3.png" alt="Argo Rollouts Dashboard Diagram" width="100%">
 
 </td>
 </tr>
@@ -269,7 +269,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #42a4bcff; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/kiali-app-graph.png" alt="Kiali Service Mesh Graph" width="100%">
+<img src="./assets/kiali-app-graph.png" alt="Kiali Service Mesh Graph" width="100%">
 
 </td>
 </tr>
@@ -293,7 +293,7 @@ This project demonstrates a **production-ready DevOps pipeline** for deploying a
 </td>
 <td width="60%" style="border: 2px solid #7B42BC; margin-left:20px ; padding: 15px; vertical-align: middle; text-align: center;">
 
-<img src="./docs/assets/terraform_architecture.png" alt="Terraform AWS EKS Diagram" width="100%">
+<img src="./assets/terraform_architecture.png" alt="Terraform AWS EKS Diagram" width="100%">
 
 </td>
 </tr>
