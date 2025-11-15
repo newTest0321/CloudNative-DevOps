@@ -1,0 +1,4 @@
+theme: jekyll-theme-minimal
+title: Your Project Documentation
+description: Official project documentation hosted via GitHub Pages.
+logo: /assets/logo.png   # optional, only if you have a logo
